@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'todo_screen.dart';
 import 'completed_screen.dart';
 import 'profile_screen.dart';
-
+import 'package:projj/widgets/task_card.dart';
+import 'package:projj/widgets/task_list.dart';
 class HomeScreen extends StatefulWidget {
 
   const HomeScreen({super.key});
@@ -156,61 +157,27 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           )
-              : ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              TaskModel task = tasks[index];
+              : TaskList(
+            tasks: tasks,
 
-              return Dismissible(
-                key: Key(task.title + index.toString()),
+            onChanged: (task, value) async {
+              setState(() {
+                task.isCompleted = value!;
+              });
 
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 20),
-                  color: Colors.red,
+              await SharedPrefService.saveTasks(tasks);
+            },
 
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
+            onDelete: (task) async {
+              setState(() {
+                tasks.remove(task);
+              });
 
-                onDismissed: (_) async {
+              await SharedPrefService.saveTasks(tasks);
 
-                  setState(() {
-                    tasks.removeAt(index);
-                  });
-
-                  await SharedPrefService.saveTasks(tasks);
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Task Deleted"),
-                    ),
-                  );
-                },
-
-                child: Card(
-                  margin: const EdgeInsets.only(bottom: 15),
-
-                  child: ListTile(
-
-                    title: Text(task.title),
-
-                    subtitle: Text(task.description),
-
-                    trailing: Checkbox(
-                      value: task.isCompleted,
-                      onChanged: (value) async {
-
-                        setState(() {
-                          task.isCompleted = value!;
-                        });
-
-                        await SharedPrefService.saveTasks(tasks);
-                      },
-                    ),
-                  ),
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Task Deleted"),
                 ),
               );
             },
@@ -308,6 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
     );
   }
 }
