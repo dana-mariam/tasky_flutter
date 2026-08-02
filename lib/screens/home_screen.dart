@@ -3,6 +3,10 @@ import 'add_task_screen.dart';
 import 'add_task_screen.dart';
 import 'shared_pref_service.dart';
 import 'task_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'todo_screen.dart';
+import 'completed_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -14,12 +18,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String username = "";
 // قائمة المهام
   List<TaskModel> tasks = [];
   @override
   void initState() {
     super.initState();
     loadTasks();
+    getUsername();
+  }
+  Future<void> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      username = prefs.getString("username") ?? "Guest";
+    });
   }
 
 // تحميل المهام من SharedPreferences
@@ -82,9 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
 
             // Greeting
-            const Text(
-              "Good Evening 👋",
-              style: TextStyle(
+            Text(
+              "Welcome, $username 👋",
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
               ),
@@ -240,6 +253,60 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: 0,
+
+        onTap: (index) {
+          if (index == 0) return;
+
+          Widget screen;
+
+          switch (index) {
+            case 1:
+              screen = const TodoScreen();
+              break;
+            case 2:
+              screen = const CompletedScreen();
+              break;
+            case 3:
+              screen = const ProfileScreen();
+              break;
+            default:
+              screen = const HomeScreen();
+          }
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => screen,
+            ),
+          );
+        },
+
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.note_alt_outlined),
+            activeIcon: Icon(Icons.note_alt),
+            label: "To Do",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.check_circle_outline),
+            activeIcon: Icon(Icons.check_circle),
+            label: "Completed",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
       ),
     );
   }

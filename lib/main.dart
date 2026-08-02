@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:projj/screens/welcom_screen.dart';
 
@@ -12,18 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
