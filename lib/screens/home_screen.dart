@@ -122,73 +122,79 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 30),
 
-            const Text(
-              "High Priority Tasks",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+
 
             const SizedBox(height: 20),
 
 
-        Expanded(
-          child: tasks.isEmpty
-              ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.task_alt,
-                  size: 80,
-                  color: Colors.grey.shade300,
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  "No Tasks Yet",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: ListView(
+                children: [
+
+                  const Text(
+                    "High Priority Tasks",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "Press the button below\nand add your first task.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
+
+                  const SizedBox(height: 15),
+
+                  TaskList(
+                    tasks: tasks.where((e) => e.isHighPriority).toList(),
+
+                    onChanged: (task, value) async {
+                      setState(() {
+                        task.isCompleted = value!;
+                      });
+
+                      await SharedPrefService.saveTasks(tasks);
+                    },
+
+                    onDelete: (task) async {
+                      setState(() {
+                        tasks.remove(task);
+                      });
+
+                      await SharedPrefService.saveTasks(tasks);
+                    },
                   ),
-                ),
-              ],
+
+                  const SizedBox(height: 25),
+
+                  const Text(
+                    "My Tasks",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  TaskList(
+                    tasks: tasks.where((e) => !e.isHighPriority).toList(),
+
+                    onChanged: (task, value) async {
+                      setState(() {
+                        task.isCompleted = value!;
+                      });
+
+                      await SharedPrefService.saveTasks(tasks);
+                    },
+
+                    onDelete: (task) async {
+                      setState(() {
+                        tasks.remove(task);
+                      });
+
+                      await SharedPrefService.saveTasks(tasks);
+                    },
+                  ),
+                ],
+              ),
             ),
-          )
-              : TaskList(
-            tasks: tasks,
-
-            onChanged: (task, value) async {
-              setState(() {
-                task.isCompleted = value!;
-              });
-
-              await SharedPrefService.saveTasks(tasks);
-            },
-
-            onDelete: (task) async {
-              setState(() {
-                tasks.remove(task);
-              });
-
-              await SharedPrefService.saveTasks(tasks);
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Task Deleted"),
-                ),
-              );
-            },
-          ),
-        ),
           ],
         ),
       ),
