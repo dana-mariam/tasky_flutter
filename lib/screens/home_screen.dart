@@ -9,6 +9,8 @@ import 'completed_screen.dart';
 import 'profile_screen.dart';
 import 'package:projj/widgets/task_card.dart';
 import 'package:projj/widgets/task_list.dart';
+import 'package:projj/widgets/home_header.dart';
+import 'package:projj/widgets/progress_card.dart';
 class HomeScreen extends StatefulWidget {
 
   const HomeScreen({super.key});
@@ -96,28 +98,32 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
 
             // Greeting
-            Text(
-              "Welcome, $username 👋",
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+            HomeHeader(
+              username: username,
             ),
 
-            const SizedBox(height: 5),
+            const SizedBox(height: 30),
 
             const Text(
-              "One task at a time.\nOne step closer.",
+              "Yuhuu, Your work is\nalmost done! 👋",
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 34,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: 25),
+
+            ProgressCard(
+              completedTasks:
+              tasks.where((task) => task.isCompleted).length,
+              totalTasks: tasks.length,
+            ),
+
+            const SizedBox(height: 30),
 
             const Text(
-              "Today's Tasks",
+              "High Priority Tasks",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
