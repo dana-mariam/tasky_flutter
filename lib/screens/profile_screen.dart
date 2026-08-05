@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'user_details_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -91,7 +92,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Icon(Icons.person_outline),
               title: const Text("User Details"),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const UserDetailsScreen(),
+                  ),
+                );
+              },
             ),
 
             const Divider(),
@@ -115,7 +123,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: const Text("Log Out"),
               trailing: const Icon(Icons.arrow_forward_ios),
 
-              onTap: () {},
+              onTap: () {
+
+              },
             ),
           ],
         ),

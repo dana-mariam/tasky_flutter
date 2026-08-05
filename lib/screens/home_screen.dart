@@ -128,71 +128,65 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
             Expanded(
-              child: ListView(
-                children: [
-
-                  const Text(
-                    "High Priority Tasks",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "High Priority Tasks",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 15),
+                    const SizedBox(height: 15),
 
-                  TaskList(
-                    tasks: tasks.where((e) => e.isHighPriority).toList(),
-
-                    onChanged: (task, value) async {
-                      setState(() {
-                        task.isCompleted = value!;
-                      });
-
-                      await SharedPrefService.saveTasks(tasks);
-                    },
-
-                    onDelete: (task) async {
-                      setState(() {
-                        tasks.remove(task);
-                      });
-
-                      await SharedPrefService.saveTasks(tasks);
-                    },
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  const Text(
-                    "My Tasks",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                    TaskList(
+                      tasks: tasks.where((e) => e.isHighPriority).toList(),
+                      onChanged: (task, value) async {
+                        setState(() {
+                          task.isCompleted = value!;
+                        });
+                        await SharedPrefService.saveTasks(tasks);
+                      },
+                      onDelete: (task) async {
+                        setState(() {
+                          tasks.remove(task);
+                        });
+                        await SharedPrefService.saveTasks(tasks);
+                      },
                     ),
-                  ),
 
-                  const SizedBox(height: 15),
+                    const SizedBox(height: 25),
 
-                  TaskList(
-                    tasks: tasks.where((e) => !e.isHighPriority).toList(),
+                    const Text(
+                      "My Tasks",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
-                    onChanged: (task, value) async {
-                      setState(() {
-                        task.isCompleted = value!;
-                      });
+                    const SizedBox(height: 15),
 
-                      await SharedPrefService.saveTasks(tasks);
-                    },
-
-                    onDelete: (task) async {
-                      setState(() {
-                        tasks.remove(task);
-                      });
-
-                      await SharedPrefService.saveTasks(tasks);
-                    },
-                  ),
-                ],
+                    TaskList(
+                      tasks: tasks.where((e) => !e.isHighPriority).toList(),
+                      onChanged: (task, value) async {
+                        setState(() {
+                          task.isCompleted = value!;
+                        });
+                        await SharedPrefService.saveTasks(tasks);
+                      },
+                      onDelete: (task) async {
+                        setState(() {
+                          tasks.remove(task);
+                        });
+                        await SharedPrefService.saveTasks(tasks);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
