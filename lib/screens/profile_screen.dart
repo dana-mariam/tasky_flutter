@@ -92,13 +92,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Icon(Icons.person_outline),
               title: const Text("User Details"),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => const UserDetailsScreen(),
                   ),
                 );
+
+                getUsername();
               },
             ),
 
@@ -123,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: const Text("Log Out"),
               trailing: const Icon(Icons.arrow_forward_ios),
 
-              onTap: () {
+              onTap: ()  {
 
               },
             ),
