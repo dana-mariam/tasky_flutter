@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'user_details_screen.dart';
+import 'welcom_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -125,8 +126,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: const Text("Log Out"),
               trailing: const Icon(Icons.arrow_forward_ios),
 
-              onTap: ()  {
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
 
+                await prefs.remove("username");
+                await prefs.remove("quote");
+                await prefs.remove("tasks");
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WelcomeScreen(),
+                  ),
+                      (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
