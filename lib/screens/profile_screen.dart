@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'user_details_screen.dart';
 import 'welcom_screen.dart';
 import 'package:projj/main.dart';
+import 'package:projj/core/theme_notifier.dart';
 
 
 class ProfileScreen extends StatefulWidget {
@@ -120,13 +121,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: const Text("Dark Mode"),
               secondary: const Icon(Icons.dark_mode_outlined),
 
-              onChanged: (value) {
-                setState(() {
-                  darkMode = value;
-                });
+                onChanged: (value) async {
+                  final prefs = await SharedPreferences.getInstance();
 
-                MyApp.of(context)?.changeTheme(value);
-              },
+                  await prefs.setBool("darkMode", value);
+
+                  themeNotifier.value =
+                  value ? ThemeMode.dark : ThemeMode.light;
+
+                  setState(() {
+                    darkMode = value;
+                  });
+                }
             ),
 
             const Divider(),

@@ -1,66 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:projj/screens/welcom_screen.dart';
+
 import 'package:projj/core/light_theme.dart';
 import 'package:projj/core/dark_theme.dart';
+import 'package:projj/core/theme_notifier.dart';
 
+import 'package:projj/screens/welcom_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
+
   bool isDark = prefs.getBool("darkMode") ?? false;
 
-  runApp(MyApp(isDark: isDark));
+  themeNotifier.value =
+  isDark ? ThemeMode.dark : ThemeMode.light;
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  final bool isDark;
-
-  const MyApp({
-    super.key,
-    required this.isDark,
-  });
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-
-  static _MyAppState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_MyAppState>();
-  }
-}
-
-class _MyAppState extends State<MyApp> {
-  late bool isDark;
-
-  @override
-  void initState() {
-    super.initState();
-    isDark = widget.isDark;
-  }
-
-  Future<void> changeTheme(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setBool("darkMode", value);
-
-    setState(() {
-      isDark = value;
-    });
-  }
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (context, currentTheme, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
 
-      theme: lightTheme,
+          theme: lightTheme,
 
-      darkTheme: darkTheme,
+          darkTheme: darkTheme,
 
-      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+          themeMode: currentTheme,
 
-      home: const WelcomeScreen(),
+          home: const WelcomeScreen(),
+        );
+      },
     );
   }
 }
