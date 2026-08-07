@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../core/theme_controller.dart';
 import 'user_details_screen.dart';
 import 'welcom_screen.dart';
 import 'package:projj/main.dart';
@@ -122,12 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               secondary: const Icon(Icons.dark_mode_outlined),
 
                 onChanged: (value) async {
-                  final prefs = await SharedPreferences.getInstance();
-
-                  await prefs.setBool("darkMode", value);
-
-                  themeNotifier.value =
-                  value ? ThemeMode.dark : ThemeMode.light;
+                  await ThemeController.changeTheme(value);
 
                   setState(() {
                     darkMode = value;

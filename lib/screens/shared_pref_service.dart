@@ -29,6 +29,15 @@ class SharedPrefService {
     // حفظها داخل SharedPreferences
     await prefs.setString(taskKey, jsonString);
   }
+  static Future<void> setBool(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+
+  static Future<bool?> getBool(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key);
+  }
 
   // ======================================
   // Get Tasks
@@ -38,6 +47,8 @@ class SharedPrefService {
     final prefs = await SharedPreferences.getInstance();
 
     String? jsonString = prefs.getString(taskKey);
+
+
 
     // إذا لم توجد بيانات
     if (jsonString == null) {

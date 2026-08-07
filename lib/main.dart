@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:projj/core/light_theme.dart';
 import 'package:projj/core/dark_theme.dart';
-import 'package:projj/core/theme_notifier.dart';
+import 'package:projj/core/theme_controller.dart';
 
 import 'package:projj/screens/welcom_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final prefs = await SharedPreferences.getInstance();
-
-  bool isDark = prefs.getBool("darkMode") ?? false;
-
-  themeNotifier.value =
-  isDark ? ThemeMode.dark : ThemeMode.light;
+  await ThemeController.init();
 
   runApp(const MyApp());
 }
@@ -26,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeNotifier,
+      valueListenable: ThemeController.themeNotifier,
       builder: (context, currentTheme, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
