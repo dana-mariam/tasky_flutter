@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'user_details_screen.dart';
 import 'welcom_screen.dart';
+import 'package:projj/main.dart';
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,9 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool darkMode = false;
 
   @override
+
   void initState() {
     super.initState();
     getUsername();
+    loadTheme();
   }
 
   Future<void> getUsername() async {
@@ -26,6 +30,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     setState(() {
       username = prefs.getString("username") ?? "Guest";
+    });
+  }
+  Future<void> loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      darkMode = prefs.getBool("darkMode") ?? false;
     });
   }
 
@@ -58,29 +69,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             Text(
               username,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 fontSize: 28,
-                fontWeight: FontWeight.bold,
               ),
             ),
 
             const SizedBox(height: 8),
 
-            const Text(
+            Text(
               "One task at a time.\nOne step closer.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
 
             const SizedBox(height: 40),
 
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 "Profile Info",
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -116,6 +124,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 setState(() {
                   darkMode = value;
                 });
+
+                MyApp.of(context)?.changeTheme(value);
               },
             ),
 

@@ -50,20 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
       // ===============================
       // Background Color
       // ===============================
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       // ===============================
       // App Bar
       // ===============================
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: false,
 
-        title: const Text(
+        title:  Text(
           "Tasky",
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).colorScheme.onSurface,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
               radius: 18,
               backgroundColor: Colors.blue,
 
-              child: const Icon(
+              child:  Icon(
                 Icons.person,
                 color: Colors.white,
               ),
@@ -104,11 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 30),
 
-            const Text(
+            Text(
               "Yuhuu, Your work is\nalmost done! 👋",
-              style: TextStyle(
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 fontSize: 34,
-                fontWeight: FontWeight.bold,
               ),
             ),
 
@@ -132,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "High Priority Tasks",
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -160,9 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     const SizedBox(height: 25),
 
-                    const Text(
-                      "My Tasks",
-                      style: TextStyle(
+                    Text(
+                      "Mu Task",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -215,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         },
 
-        icon: const Icon(
+        icon: Icon(
           Icons.add,
           color: Colors.white,
         ),
@@ -230,6 +229,11 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+
+        unselectedItemColor: Theme.of(context).colorScheme.outline,
 
         onTap: (index) {
           if (index == 0) return;

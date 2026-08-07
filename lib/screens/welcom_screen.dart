@@ -28,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -61,10 +61,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                       const SizedBox(width: 10),
 
-                      const Text(
+                       Text(
                         "Tasky",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 26,
                           fontWeight: FontWeight.w500,
                         ),
@@ -78,12 +78,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   // Welcome Text
                   // ======================
 
-                  const Text(
-                    "Welcome To Tasky 👋",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                  Text(
+                    "Welcome To Tasky",
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: 34,
                     ),
                   ),
 
@@ -155,7 +153,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       hintText: "username",
 
                       hintStyle: const TextStyle(
-                        color: Colors.grey,
                       ),
 
                       filled: true,

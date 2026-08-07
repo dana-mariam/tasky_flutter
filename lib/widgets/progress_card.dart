@@ -20,7 +20,7 @@ class ProgressCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
 
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(25),
       ),
 
@@ -33,9 +33,9 @@ class ProgressCard extends StatelessWidget {
 
               children: [
 
-                const Text(
+                Text(
                   "Achieved Tasks",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -45,9 +45,7 @@ class ProgressCard extends StatelessWidget {
 
                 Text(
                   "$completedTasks Out of $totalTasks Done",
-                  style: const TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -69,7 +67,7 @@ class ProgressCard extends StatelessWidget {
 
                 Text(
                   "${(progress * 100).toInt()}%",
-                  style: const TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
